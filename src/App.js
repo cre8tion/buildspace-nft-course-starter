@@ -1,7 +1,7 @@
 import './styles/App.css';
 import twitterLogo from './assets/twitter-logo.svg';
 import { ethers } from "ethers";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import myEpicNft from './utils/MyEpicNFT.json';
 
 
@@ -9,6 +9,7 @@ const TWITTER_HANDLE = '_buildspace';
 const TWITTER_LINK = `https://twitter.com/${TWITTER_HANDLE}`;
 const CONTRACT_ADDRESS = "0x9B116f964438c85115496E177c06C4A34996EE76";
 const OPENSEA_LINK = `https://testnets.opensea.io/assets/${CONTRACT_ADDRESS}`;
+// eslint-disable-next-line
 const TOTAL_MINT_COUNT = 50;
 
 
@@ -17,7 +18,7 @@ const App = () => {
 
     const [currentAccount, setCurrentAccount] = useState("");
     
-    const checkIfWalletIsConnected = async () => {
+    const checkIfWalletIsConnected = useCallback( async () => {
       const { ethereum } = window;
 
       if (!ethereum) {
@@ -40,7 +41,7 @@ const App = () => {
       } else {
           console.log("No authorized account found")
       }
-  }
+  }, [])
 
   const connectWallet = async () => {
     try {
@@ -122,7 +123,7 @@ const App = () => {
 
   useEffect(() => {
     checkIfWalletIsConnected();
-  }, [])
+  }, [checkIfWalletIsConnected])
 
   const renderNotConnectedContainer = () => (
     <button onClick={connectWallet} className="cta-button connect-wallet-button">
