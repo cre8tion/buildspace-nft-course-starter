@@ -8,7 +8,8 @@ import myEpicNft from './utils/MyEpicNFT.json';
 const TWITTER_HANDLE = '_buildspace';
 const TWITTER_LINK = `https://twitter.com/${TWITTER_HANDLE}`;
 const CONTRACT_ADDRESS = "0x5310b3DeC733e56c64dC5319EFe5Df752d25bCab";
-const OPENSEA_LINK = `https://testnets.opensea.io/assets/${CONTRACT_ADDRESS}`;
+const OPENSEA_MINT_LINK = `https://testnets.opensea.io/assets/${CONTRACT_ADDRESS}`;
+const OPENSEA_COLLECTION_LINK = `https://testnets.opensea.io/collection/squarenft-h1twir3gia`;
 const TOTAL_MINT_COUNT = 50;
 
 
@@ -30,7 +31,7 @@ const App = () => {
           connectedContract.on("NewEpicNFTMinted", (from, tokenId) => {
             console.log(from, tokenId.toNumber())
             setIsMinting(false)
-            alert(`Hey there! We've minted your NFT and sent it to your wallet. It may be blank right now. It can take a max of 10 min to show up on OpenSea. Here's the link: ${OPENSEA_LINK}/${tokenId.toNumber()}`)
+            alert(`Hey there! We've minted your NFT and sent it to your wallet. It may be blank right now. It can take a max of 10 min to show up on OpenSea. Here's the link: ${OPENSEA_MINT_LINK}/${tokenId.toNumber()}`)
             getMintedNFTs();
           });
   
@@ -194,6 +195,12 @@ const App = () => {
     </div>
   )
 
+  const renderViewCollectionButton = () => (
+    <button onClick={()=> window.open(OPENSEA_COLLECTION_LINK, "_blank")} className="cta-button view-collection-button">
+      🌊 View Collection on OpenSea
+    </button>
+  )
+
   return (
     <div className="App">
       <div className="container">
@@ -205,6 +212,7 @@ const App = () => {
           {currentAccount === "" ? renderNotConnectedContainer() : renderMintUI(isMintable)}
           {isMinting ? renderLoadingIndicator() : null}
           <p className="sub-text">{mintedNFTs}/{TOTAL_MINT_COUNT} NFTs minted so far</p>
+          {renderViewCollectionButton()}
         </div>
         <div className="footer-container">
           <img alt="Twitter Logo" className="twitter-logo" src={twitterLogo} />

@@ -58,6 +58,12 @@
   animation: gradient-animation 4s ease infinite;
 }
 
+.view-collection-button {
+  background: -webkit-linear-gradient(left, #3d66d6, #be3c58);
+  background-size: 200% 200%;
+  animation: gradient-animation 4s ease infinite;
+}
+
 .mint-button {
   background: -webkit-linear-gradient(left, #a200d6, #ff6fdf);
   background-size: 200% 200%;
