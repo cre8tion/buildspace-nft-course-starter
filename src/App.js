@@ -7,7 +7,7 @@ import myEpicNft from './utils/MyEpicNFT.json';
 
 const TWITTER_HANDLE = '_buildspace';
 const TWITTER_LINK = `https://twitter.com/${TWITTER_HANDLE}`;
-const CONTRACT_ADDRESS = "0x5275c8fD17c183867293EE27504E1a96332fBA50";
+const CONTRACT_ADDRESS = "0x9B116f964438c85115496E177c06C4A34996EE76";
 const OPENSEA_LINK = `https://testnets.opensea.io/assets/${CONTRACT_ADDRESS}`;
 const TOTAL_MINT_COUNT = 50;
 
