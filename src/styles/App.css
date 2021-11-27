@@ -17,6 +17,10 @@
   padding-top: 30px;
 }
 
+.loading-container {
+  padding-top: 24px;
+}
+
 .header {
   margin: 0;
   font-size: 50px;

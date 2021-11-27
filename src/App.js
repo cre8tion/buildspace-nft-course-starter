@@ -1,6 +1,7 @@
 import './styles/App.css';
 import twitterLogo from './assets/twitter-logo.svg';
 import { ethers } from "ethers";
+import Loader from "react-loader-spinner";
 import React, { useCallback, useEffect, useState } from "react";
 import myEpicNft from './utils/MyEpicNFT.json';
 
@@ -12,9 +13,9 @@ const TOTAL_MINT_COUNT = 50;
 
 
 const App = () => {
-
     const [currentAccount, setCurrentAccount] = useState("");
     const [mintedNFTs, setMintedNFTs] = useState(null);
+    const [isMinting, setIsMinting] = useState(false);
     const isMintable = mintedNFTs !== null && mintedNFTs <= TOTAL_MINT_COUNT;
 
     const setupEventListener = useCallback(async () => {
@@ -28,6 +29,7 @@ const App = () => {
   
           connectedContract.on("NewEpicNFTMinted", (from, tokenId) => {
             console.log(from, tokenId.toNumber())
+            setIsMinting(false)
             alert(`Hey there! We've minted your NFT and sent it to your wallet. It may be blank right now. It can take a max of 10 min to show up on OpenSea. Here's the link: ${OPENSEA_LINK}/${tokenId.toNumber()}`)
             getMintedNFTs();
           });
@@ -145,9 +147,14 @@ const App = () => {
 
         console.log("Going to pop wallet now to pay gas...")
         let nftTxn = await connectedContract.makeAnEpicNFT();
+        setIsMinting(true);
 
         console.log("Mining...please wait.")
         await nftTxn.wait();
+
+        if(isMinting){
+          setIsMinting(false);
+        }
         console.log(nftTxn);
         console.log(`Mined, see transaction: https://rinkeby.etherscan.io/tx/${nftTxn.hash}`);
 
@@ -176,6 +183,17 @@ const App = () => {
     </button>
   )
 
+  const renderLoadingIndicator = () => (
+    <div className="loading-container">    
+      <Loader
+        type="TailSpin"
+        color="#00BFFF"
+        height={100}
+        width={100}
+      />
+    </div>
+  )
+
   return (
     <div className="App">
       <div className="container">
@@ -185,6 +203,7 @@ const App = () => {
             Each unique. Each beautiful. Discover your NFT today.
           </p>
           {currentAccount === "" ? renderNotConnectedContainer() : renderMintUI(isMintable)}
+          {isMinting ? renderLoadingIndicator() : null}
           <p className="sub-text">{mintedNFTs}/{TOTAL_MINT_COUNT} NFTs minted so far</p>
         </div>
         <div className="footer-container">
